@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Lights Effects by ganesh kavhar </title>
+  
+  
+  
+      <link rel="stylesheet" href="./style.css">
+
+  
+</head>
+
+<body>
+
+  <!DOCTYPE html>
+<html>
+	<head><!--Created By ganesh kavhar-->
+		<title>Lights Efects</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+	<body>
+	<canvas id='c'></canvas>
+	<script>
+	var c = document.getElementById('c'),
+	$ = c.getContext('2d'),
+	W = c.width = window.innerWidth,
+	H = c.height = window.innerHeight,
+
+	particles = [],
+	particleCount = 25;
+
+for (var i = 0; i < particleCount; i++) {
+  particles.push(new particle());
+}
+
+function particle() {
+  this.location = {
+	cp1x: Math.random() * W,
+	cp1y: Math.random() * H,
+	cp2x: Math.random() * W,
+	cp2y: Math.random() * H
+  };
+  this.radius = 3;
+  this.speed = 3;
+  this.angle = Math.random() * 360;
+}
+
+function draw() {
+  $.fillStyle = 'rgba(0, 0, 0, 0.075)';
+  $.fillRect(0, 0, W, H);
+  for (var i = 0; i < particles.length; i++) {
+		var p = particles[i];
+	  $.beginPath();
+	  $.moveTo(0, 0);
+	  $.bezierCurveTo(
+		p.location.cp1x, p.location.cp1y, 
+		p.location.cp2x, p.location.cp2y, 
+		W, H
+	  );
+		$.lineWidth = '0.25';
+		$.strokeStyle = 'rgba(0, 170, 255, 0.75)';
+	  $.stroke();
+
+			p.location.cp1x = p.location.cp1x + p.speed * Math.cos(p.angle * Math.PI / 180);
+	  p.location.cp1y = p.location.cp1y + p.speed * Math.sin(p.angle * Math.PI / 180);
+	  p.location.cp2x = p.location.cp2x + p.speed * Math.cos(p.angle * Math.PI / 180);
+	  p.location.cp2y = p.location.cp2y + p.speed * Math.sin(p.angle * Math.PI / 180);
+	
+		if (p.location.cp1x < 0) p.location.cp1x = W;
+	  if (p.location.cp2x < 0) p.location.cp2x = W;
+	  if (p.location.cp1x > W) p.location.cp1x = 0;
+	  if (p.location.cp2x > W) p.location.cp2x = 0;
+	
+	  if (p.location.cp1y < 0) p.location.cp1y = H;
+	  if (p.location.cp2y < 0) p.location.cp2y = H;
+	  if (p.location.cp1y > H) p.location.cp1y = 0;
+	  if (p.location.cp2y > H) p.location.cp2y = 0;
+  }
+}
+
+function resize() {
+  c.width = W = window.innerWidth;
+  c.height = H = window.innerHeight;
+}
+
+window.requestAnimFrame = (function(){
+  return  window.requestAnimationFrame	   ||
+		  window.webkitRequestAnimationFrame ||
+		  window.mozRequestAnimationFrame	||
+		  function( callback ){
+			window.setTimeout(callback, 1000 / 60);
+		  };
+})();
+
+(function run() {
+  window.requestAnimFrame(run);
+  draw();
+})();
+
+window.addEventListener('load', resize);
+window.addEventListener('resize', resize, false);
+</script>
+	</body>
+</html>
+  
+  
+
+</body>
+
+</html>
